@@ -1,0 +1,20 @@
+malloc
+  Metadata adresses in struct         [X]
+  Pages segmentation                  [X]
+  size > PAGE_SIZE                    [X]
+  multidimensional metadata tab       [X]
+  tests suit                          [X]
+  Makefile                            []
+free
+  Address Finding + free              [X]
+  merge if nb_tab > 0                 [X]
+calloc
+  munmap                              []
+realloc
+  memcopy if ...; malloc free         []
+ general
+  static variables                    []
+  coding style                        []
+  carry la game d'adrien              []
+  
+si page meta pleine, free les cases > 4096, si toujours pleine = new_page
