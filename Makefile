@@ -7,6 +7,10 @@ OBJ=$(SRC:.c=.o)
 LIB=libmalloc.so
 
 all: $(LIB)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(SRC) -o malloc
+#	LD_LIBRARY_PATH=libmalloc.so ./malloc
+
+lib: $(LIB)
 
 $(LIB): 
 	$(CC) $(CFLAGS) $(LDFLAGS) $(SRC) -o $(LIB)
@@ -15,4 +19,4 @@ clean:
 	$(RM) $(OBJ) $(LIB)
 
 check: $(LIB)
-	LD_LIBRARY_PATH=. ./tests/test.sh
+	LD_LIBRARY_PATH=. malloc
