@@ -16,7 +16,7 @@ $(LIB):
 	$(CC) $(CFLAGS) $(LDFLAGS) $(SRC) -o $(LIB)
 
 clean:
-	$(RM) $(OBJ) $(LIB)
+	$(RM) $(OBJ) $(LIB) malloc
 
-check: $(LIB)
-	LD_LIBRARY_PATH=. malloc
+check: all
+	LD_LIBRARY_PATH=libmalloc.so gdb -tui ./malloc
