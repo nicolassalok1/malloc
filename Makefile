@@ -5,9 +5,10 @@ LDFLAGS= -shared
 SRC=src/calloc.c src/free.c src/funclib.c src/malloc.c src/meta_functions.c src/realloc.c src/unit.c
 OBJ=$(SRC:.c=.o)
 LIB=libmalloc.so
+TARGET=malloc
 
 all: $(LIB)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(SRC) -o malloc
+	$(CC) $(CFLAGS) $(LDFLAGS) $(SRC) -o $(TARGET)
 #	LD_LIBRARY_PATH=libmalloc.so ./malloc
 
 lib: $(LIB)
@@ -16,7 +17,7 @@ $(LIB):
 	$(CC) $(CFLAGS) $(LDFLAGS) $(SRC) -o $(LIB)
 
 clean:
-	$(RM) $(OBJ) $(LIB) malloc
+	$(RM) $(OBJ) $(LIB) $(TARGET)
 
 check: all
 	LD_LIBRARY_PATH=libmalloc.so gdb -tui ./malloc
