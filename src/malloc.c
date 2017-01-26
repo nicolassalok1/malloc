@@ -22,44 +22,42 @@ void *malloc(size_t size)
     return gros_malloc(size, tab, 1, 0);
 
   size_t k;
-  k = tabsize();
+  k = tabsize() - 1;
 
   while ((k > 0) && (size > tab[k].block_size))
+  {
     k--;
+  }
 
-  struct mymeta *tmp = &tab[k];
-  struct mymeta *pre_tmp;
   
-  if ((tmp->page_address) && (is_it_free(*tmp, 1)))
+  if ((tab[k].page_address) && (is_it_free(*tmp, 1) != -1))
     return alloc(&tab[k], 1, 0);
 
-  while ((tmp->next) && (tmp->page_address) && (is_it_free(*tmp, 1) == -1))
+  struct mymeta *tmp = tab[k].next;
+  struct mymeta *pre_tmp = &tab[k];
+
+  while ((tmp) && (tmp->page_address)/* && (tmp->next)*/ && (is_it_free(*tmp, 1) == -1))
   {
     pre_tmp = tmp;
     tmp = tmp->next;
   }
 
-  if ((tmp->page_address) && (is_it_free(*tmp, 1)))
+  if ((tmp) && (tmp->page_address) && (is_it_free(*tmp, 1) != -1))
     return alloc(tmp, 1, 0);
 
 
-  else if (!(tmp->page_address))
+  else if ((tmp) && (!(tmp->page_address)))
   {
-
     new_page(tmp, 1);
 
     return alloc(tmp, 1, 0);
   }
 
-  pre_tmp->next = tmp;
+  pre_tmp->next = build_metacase(pre_tmp->block_size);
 
-  build_metacase(pre_tmp->block_size);//recuperer la case crée
+  new_page(pre_tmp->next, 1);
 
-  pre_tmp->next = tmp;
-
-  new_page(tmp, 1);
-
-  return alloc(tmp, 1, 0);
+  return alloc(pre_tmp->next, 1, 0);
 
 }
 

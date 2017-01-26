@@ -21,7 +21,7 @@ int is_registered (void *input, struct mymeta *tab)
     while ((tmp->next) && (char_input >= buffer))
     {
 
-		  for (; k < TAILLE_PAGE; k++);
+		  for (; k < TAILLE_PAGE; k++)
 		  {
 				buffer++;
 		  }
@@ -79,7 +79,7 @@ struct mymeta *find_metadata (void *input, struct mymeta *tab)
     while ((tmp->next) && (char_input <= buffer))
     {
     	buffer = tmp->page_address;
-		  for (; k < TAILLE_PAGE; k++);
+		  for (; k < TAILLE_PAGE; k++)
 		  {
 				buffer++;
 		  }
@@ -162,7 +162,8 @@ void new_page(struct mymeta *tmp, size_t num)
 void build_metatab (void)
 {
   size_t nb_case = 0;
-  long n = TAILLE_PAGE;
+  long taille_page = TAILLE_PAGE;
+  long n = taille_page;
   size_t deux_puiss_i = 0;
 
   //struct mymeta *tmp = NULL;
@@ -173,7 +174,7 @@ void build_metatab (void)
     n /= 2;
   } 
 
-  n = TAILLE_PAGE;
+  n = taille_page;
 
   tableau = mmap(0, 4096, PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
 
@@ -184,9 +185,9 @@ void build_metatab (void)
 
   for (; i < nb_case; i++)
   {
-    build_metacase(n);
     deux_puiss_i = puissance2(i);
-  	n /= deux_puiss_i;
+  	n = taille_page / deux_puiss_i;
+    build_metacase(n);
   }
 
 }

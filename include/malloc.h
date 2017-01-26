@@ -11,7 +11,7 @@
 #include <sys/mman.h>
 
 #define TAILLE_BLOCK_MIN  512
-#define TAILLE_PAGE  sysconf(_SC_PAGESIZE)
+#define TAILLE_PAGE sysconf(_SC_PAGESIZE)
 
 struct mymeta
 {
