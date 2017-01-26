@@ -126,7 +126,9 @@ static void check_calloc(void)
 */
 int main(void)
 {
-  malloc (1);
+  int *i = malloc (1);
+
+  i = i;
   //check_malloc();
   //printf("Malloc: \t\033[32mOK\033[0m\n");
   /*check_free();

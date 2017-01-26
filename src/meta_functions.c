@@ -111,7 +111,7 @@ void new_page(struct mymeta *tmp, size_t num)
   long taille_totale = tmp->block_size * num;
   
   
-  if (taille_totale > TAILLE_PAGE)
+  if (taille_totale > TAILLE_PAGE) //GROS MALLOC
   {
     tmp->page_address = mmap(0, taille_totale, PROT_READ|PROT_WRITE,MAP_PRIVATE/*|MAP_ANONYMOUS*/, -1, 0);
 
@@ -134,9 +134,14 @@ void new_page(struct mymeta *tmp, size_t num)
     }
 
   }
+ 
+  tmp->page_address = mmap(0, 4096, PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
+  
+  if (!tmp->page_address)
+    printf("error");
 
-  tmp->page_address = mmap(0, taille_totale, PROT_READ|PROT_WRITE,MAP_PRIVATE/*|MAP_ANONYMOUS*/, -1, 0);
-  char *buffer = tmp->page_address;
+
+  /*char *buffer = tmp->page_address;//?????????
   long i = 0;
 
   while (i < TAILLE_PAGE)
@@ -145,7 +150,9 @@ void new_page(struct mymeta *tmp, size_t num)
     buffer = NULL;
     buffer++;
   }
-  
+  */
+
+  munmap(tmp->page_address, 4096);
   
   size_t nb_case = TAILLE_PAGE / tmp->block_size;
   *tab_is_free = '\0';
