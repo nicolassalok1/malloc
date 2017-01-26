@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
-/*
+
 static void check_malloc(void)
 {
   // Allocate.
@@ -25,7 +25,7 @@ static void check_malloc(void)
   for (int i = 0; i < 100; ++i)
     assert(arr[i] == i && "Read of written value failed.");
 }
-
+/*
 static void check_free(void)
 {
   // Allocate.
@@ -126,11 +126,8 @@ static void check_calloc(void)
 */
 int main(void)
 {
-  int *i = malloc (1);
-
-  i = i;
-  //check_malloc();
-  //printf("Malloc: \t\033[32mOK\033[0m\n");
+  check_malloc();
+  printf("Malloc: \t\033[32mOK\033[0m\n");
   /*check_free();
   printf("Free: \t\t\033[32mOK\033[0m\n");
   check_realloc();

@@ -19,5 +19,5 @@ $(LIB):
 clean:
 	$(RM) $(OBJ) $(LIB) $(TARGET)
 
-check: all
-	LD_LIBRARY_PATH=libmalloc.so gdb -tui ./malloc
+check:
+	LD_LIBRARY_PATH=libmalloc.so ./malloc
