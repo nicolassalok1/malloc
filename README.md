@@ -6,6 +6,12 @@ gdb /bin/ls
 (gdb) b malloc.c:malloc
 
 
+
+
+
+
+
+
 (gdb) set env LD_LIBRARY_PATH=.
 (gdb) b main
 Breakpoint 1 at 0x4007b4: file src/unit.c, line 129.
