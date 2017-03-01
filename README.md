@@ -4,15 +4,10 @@ gdb /bin/ls
 
 (gdb) set exec-wrapper env LD_PRELOAD=./libmalloc.so
 (gdb) b malloc.c:malloc
-Aucune table de symboles n'est chargÃ©e. Utiliser la commande Â«Â fileÂ Â»
-Make breakpoint pending on future shared library load? (y or [n]) y
-Breakpoint 1 (malloc.c:malloc) pending.
-(gdb) start
-Function "main" not defined.
-Make breakpoint pending on future shared library load? (y or [n]) y
-Temporary breakpoint 2 (main) pending.
-Starting program: /bin/ls
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
 
-Breakpoint 1, malloc (size=552) at src/malloc.c:10
+
+(gdb) set env LD_LIBRARY_PATH=.
+(gdb) b main
+Breakpoint 1 at 0x4007b4: file src/unit.c, line 129.
+(gdb) r
+Starting program: /afs/cri.epita.net/user/n/ni/nicolas.pelletier/u/malloc/unit
