@@ -1,23 +1,32 @@
 CC=gcc
-CFLAGS= -fPIC -Werror -Wextra -Wall -pedantic -g3 -std=c99 -Iinclude -fvisibility=hidden
-        
-LDFLAGS= -shared
-SRC=src/calloc.c src/free.c src/funclib.c src/malloc.c src/meta_functions.c src/realloc.c src/unit.c
-OBJ=$(SRC:.c=.o)
+CFLAGS=-Wall -Wextra -std=c99 -pedantic -Iinclude -Werror -fvisibility=hidden -fPIC 
+VPATH= src tests
+LIBOBJS= meta_functions.o funclib.o malloc.o free.o calloc.o realloc.o
+LDFLAGS=-shared
+TESTFLAGS= -Wall -Wextra -std=c99 -pedantic -Iinclude
 LIB=libmalloc.so
-TARGET=malloc
+TEST=unit
+TESTOBJS=unit.o
+
+.PHONY : all check clean
 
 all: $(LIB)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(SRC) -o $(TARGET)
-#	LD_LIBRARY_PATH=libmalloc.so ./malloc
+	$(RM) $(LIBOBJS)
 
-lib: $(LIB)
-
-$(LIB): 
-	$(CC) $(CFLAGS) $(LDFLAGS) $(SRC) -o $(LIB)
-
-clean:
-	$(RM) $(OBJ) $(LIB) $(TARGET)
+$(LIB)!: CFLAGS += OBJSFLAGS
+$(LIB): $(LIBOBJS)
+	$(CC) $(LDFLAGS) -o $@  $^
+	$(RM) $(LIBOBJS)
 
 check:
-	LD_LIBRARY_PATH=libmalloc.so ./malloc
+	LD_LIBRARY_PATH=. ./$(TEST)
+$(TEST):$(TESTOBJS)
+	$(CC) $(TESTFLAGS) -o $@ $< -L. -lmalloc
+	$(RM) $(TESTOBJS)
+
+debug: CFLAGS+=-g
+debug: TESTFLAGS+=-g
+debug: $(LIB) $(TEST)
+
+clean:
+	$(RM) $(LIB) $(LIBOBJS) $(TEST) $(TESTOBJS)

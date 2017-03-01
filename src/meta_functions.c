@@ -152,7 +152,7 @@ void new_page(struct mymeta *tmp, size_t num)
   }
   */
 
-  munmap(tmp->page_address, 4096);
+  //munmap(tmp->page_address, 4096);
   
   size_t nb_case = TAILLE_PAGE / tmp->block_size;
   *tab_is_free = '\0';

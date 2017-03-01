@@ -125,19 +125,21 @@ void *alloc(struct mymeta *tmp, size_t num, int flag)
 
   if (!flag)
   {
-    struct mymeta *teub = tmp->page_address;
+    //struct mymeta *teub = tmp->page_address;
+    char *offset = tmp->page_address;
     char *tab = tmp->is_free;
     int i = is_it_free(*tmp, num);
 
     for (int j = 0; j < i; j++)//while ((i < (4096 / tmp->block_size) && (tab[i] == '0'))
     {
-      teub++;
+      offset += tmp->block_size;
+      //teub++;
       //i++;
     }
 
     tab[i] = '0';
-    void *res = teub;
-
+    //void *res = teub;
+    void *res = offset;
     return res;
   }
   else
