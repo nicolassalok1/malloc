@@ -33,8 +33,8 @@ void *malloc(size_t size)
   if ((tab[k].page_address) && (is_it_free(tab[k], 1) != -1))
     return alloc(&tab[k], 1, 0);
 
-  struct mymeta *tmp = &tab[k];//.next;
-  struct mymeta *pre_tmp = NULL;// &tab[k];
+  struct mymeta *tmp = &tab[k];
+  struct mymeta *pre_tmp = NULL;
 
   while ((tmp) && (tmp->page_address)/* && (tmp->next)*/ && (is_it_free(*tmp, 1) == -1))
   {
@@ -125,27 +125,20 @@ void *alloc(struct mymeta *tmp, size_t num, int flag)
 
   if (!flag)
   {
-    //struct mymeta *teub = tmp->page_address;
     char *offset = tmp->page_address;
     char *tab = tmp->is_free;
     int i = is_it_free(*tmp, num);
 
-    for (int j = 0; j < i; j++)//while ((i < (4096 / tmp->block_size) && (tab[i] == '0'))
+    for (int j = 0; j < i; j++)
     {
       offset += tmp->block_size;
-      //teub++;
-      //i++;
     }
-
     tab[i] = '0';
-    //void *res = teub;
     void *res = offset;
     return res;
   }
   else
-    num = num;
-  return 0;
-    //return alloc_calloc(tmp, num);
+    return alloc_calloc(tmp, num);
 
 }
 

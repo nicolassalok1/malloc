@@ -25,7 +25,7 @@ static void check_malloc(void)
   for (int i = 0; i < 100; ++i)
     assert(arr[i] == i && "Read of written value failed.");
 }
-/*
+
 static void check_free(void)
 {
   // Allocate.
@@ -123,15 +123,15 @@ static void check_calloc(void)
   for (int i = 0; i < 100; ++i)
     assert(arr[i] == i && "Read of written value failed.");
 }
-*/
+
 int main(void)
 {
   check_malloc();
   printf("Malloc: \t\033[32mOK\033[0m\n");
-  /*check_free();
+  check_free();
   printf("Free: \t\t\033[32mOK\033[0m\n");
   check_realloc();
   printf("Realloc: \t\033[32mOK\033[0m\n");
   check_calloc();
-  printf("Calloc: \t\033[32mOK\033[0m\n");*/
+  printf("Calloc: \t\033[32mOK\033[0m\n");
 }

@@ -13,29 +13,23 @@ void free (void* input)
   
   if (is_registered(input, tab))
   {
-    int i;
+    //size_t i;
     struct mymeta *res;
     res = find_metadata(input, tab);
-    char *tmp = res->page_address;
-    char *tab_is_free = res->is_free;
+    char *buffer = res->page_address;
+    //char *tab_is_free = res->is_free;
 
-    while ((tab_is_free[i]) && (tmp != input))
+    for (size_t k = 0; k < TAILLE_PAGE/res->block_size; k++)
     {
-      tmp += res->block_size;
-      i++;
-    }
-
-    if  (tab_is_free[i])
-    {
-      //if (res.block_size <= TAILLE_PAGE)
-        tab_is_free[i] = '1';
-      /*else
+      if (input == buffer)
       {
-        //FAIRE QQCHOSE SI DES GROSSES CASES SONT FREE
-      }*/
+        res->is_free[k] = '1';
+        break;
+      }
+      buffer += res->block_size;
     }
-    else
-      printf("ya ain't no rights to free dat bitch");
-    
   }
+  else
+    printf("ya ain't no rights to free dat bitch");
+    
 }

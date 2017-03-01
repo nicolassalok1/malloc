@@ -49,6 +49,15 @@ void *calloc (size_t num, size_t size)
   return alloc_calloc(tmp, num);
 }
 
+
+
+
+
+
+
+
+
+
 void *alloc_calloc(struct mymeta *tmp, size_t num)
 {
   char *res = tmp->page_address;

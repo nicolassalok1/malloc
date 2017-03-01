@@ -5,12 +5,12 @@ struct mymeta *tableau = NULL;
 int is_registered (void *input, struct mymeta *tab)
 {
   size_t i;
-  int flag = 0;
+  //int flag = 0;
   char *buffer = NULL;
-  long k = 0;
+  
   char *char_input = input;
   
-  i = tabsize();
+  i = tabsize() - 1;
   
   struct mymeta *tmp;
   
@@ -18,27 +18,31 @@ int is_registered (void *input, struct mymeta *tab)
   {
     tmp = &tab[i];
     buffer = tmp->page_address;
-    while ((tmp->next) && (char_input >= buffer))
+    while (tmp && (char_input >= buffer))
     {
 
-		  for (; k < TAILLE_PAGE; k++)
-		  {
-				buffer++;
-		  }
-		 	if (char_input <= buffer)
-		  {
-		  	flag = 1;
-		    break;
-		  }
-		  tmp = tmp->next;
-  	}
-  	i++;
+      for (size_t k = 0; k < TAILLE_PAGE/tmp->block_size; k++)
+      {
+        
+        if (char_input == buffer)
+        {
+          //flag = 1;
+          //tmp->is_free[k] = '1';
+          return 1;
+        }
+        buffer += tmp->block_size;
+      }
+
+      tmp = tmp->next;
+    }
+  	i--;
   }
   
-  if (!flag)
+  //if (!flag)
     return 0;
 
-  k = 0;
+/*
+  int k = 0;
   char *teub = tmp->page_address;
 
   while ((k < TAILLE_PAGE) && (teub != input))
@@ -49,7 +53,18 @@ int is_registered (void *input, struct mymeta *tab)
     return 1;
     
   return 0;
+  */
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -64,6 +79,34 @@ struct mymeta *get_metatab (void)
 
 struct mymeta *find_metadata (void *input, struct mymeta *tab)
 {
+  size_t i;
+  char *buffer = NULL;
+  char *char_input = input;
+  i = tabsize() - 1;
+  struct mymeta *tmp;
+  
+  while (i > 0)
+  {
+    tmp = &tab[i];
+    buffer = tmp->page_address;
+    while (tmp && (char_input >= buffer))
+    {
+      for (size_t k = 0; k < TAILLE_PAGE/tmp->block_size; k++)
+      {
+        if (char_input == buffer)
+        {
+          return tmp;
+        }
+        buffer += tmp->block_size;
+      }
+      tmp = tmp->next;
+    }
+    i--;
+  }
+  return NULL;
+
+
+/*
   size_t i;
   i = tabsize();
   int flag = 0;
@@ -94,7 +137,7 @@ struct mymeta *find_metadata (void *input, struct mymeta *tab)
   		break;
   	i++;
   }
- 	return tmp;
+ 	return tmp;*/
 }
 
 
