@@ -1,0 +1,4 @@
+
+set exec-wrapper env 'LD_PRELOAD=./libmalloc.so'
+set env LD_LIBRARY_PATH=.
+tab
