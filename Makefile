@@ -1,9 +1,9 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -std=c99 -pedantic -Iinclude -Werror -fvisibility=hidden -fPIC 
+CFLAGS=-Wall -Wextra -std=c99 -pedantic -Iinclude -Werror -fvisibility=hidden -fPIC -g
 VPATH= src tests
 LIBOBJS= meta_functions.o funclib.o malloc.o free.o calloc.o realloc.o
 LDFLAGS=-shared
-TESTFLAGS= -Wall -Wextra -std=c99 -pedantic -Iinclude
+TESTFLAGS= -Wall -Wextra -std=c99 -pedantic -Iinclude -g
 LIB=libmalloc.so
 TEST=unit
 TESTOBJS=unit.o
@@ -24,9 +24,6 @@ $(TEST):$(TESTOBJS)
 	$(CC) $(TESTFLAGS) -o $@ $< -L. -lmalloc
 	$(RM) $(TESTOBJS)
 
-debug: CFLAGS+=-g
-debug: TESTFLAGS+=-g
-debug: $(LIB) $(TEST)
 
 clean:
 	$(RM) $(LIB) $(LIBOBJS) $(TEST) $(TESTOBJS)
